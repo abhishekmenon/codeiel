@@ -1,0 +1,80 @@
+<link rel="stylesheet" type="text/css" href="/css/home.css">
+
+
+<div id="home-container">
+    <section id="feed-posts">
+        <h4>POST</h4>
+        <% if(locals.user) {%>
+            <form id="new-posts-form" action="/posts/create" method="POST">
+                <textarea name="content" id="content" rows="3" cols="30" placeholder="Type Here..." required></textarea>
+                <button type="submit">Submit</button>
+            </form>
+        <%} %>
+        
+        <div id="posts-list-container">
+            <ul>
+                <% for(let i of posts) { %>
+                    <%- include('_post', {i: i}); %>
+                <% } %>
+            </ul>
+        </div>
+    </section>
+    <div id="users-friends-container">
+
+        <% if(locals.user) {%>
+            
+            <section id="users">
+                <h4>Friends</h4>
+                <ul>
+                    <% for(let friendship of current_user.friends) {%>
+                        <li id="<%= friendship._id %>">
+                            <p>
+                                <span><%= friendship.fid.name %></span>
+                                <a class="remove-friend-button" href="/friends/remove_friend/<%= friendship.fid._id %>">X</a>
+                            </p>
+                        </li>
+                    <%} %>
+                </ul>
+                
+            </section>
+            
+            
+            
+        <%}%>
+            
+           
+
+        <section id="users">
+            <h4>Users</h4>
+            <% for(let u of all_users) {%>
+                <p>
+                    <a href="/users/profile/<%= u.id%>"><%= u.name%></a>
+                </p>
+            <%} %>
+        </section>
+
+
+    </div>
+
+    <%- include('_chat_box'); %>
+    
+
+
+</div>
+<script src="/js/remove_friends.js"></script>
+<script src="/js/toggle_likes.js"></script>
+<script src="/js/home_comments.js"></script>
+<script src="/js/home_posts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+<script src="/js/chat_engine.js"></script>
+
+<% if(locals.user) {%>
+    
+    <script>
+        new ChatEngine('user-chat-box', '<%= locals.user.email %>');
+    </script>
+    
+<%}%>
+
+
+

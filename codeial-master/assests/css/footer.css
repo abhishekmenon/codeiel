@@ -1,0 +1,15 @@
+footer {
+  display: flex;
+  flex-direction: row;
+  color: white;
+  background-color: gray;
+  align-items: flex-start;
+  padding: 0rem 0.5rem 0rem 0.5rem;
+  font-family: sans-serif; }
+  footer ul {
+    list-style: none;
+    padding: 0px;
+    margin-left: 10px; }
+    footer ul li a {
+      color: white;
+      text-decoration: none; }

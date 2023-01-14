@@ -1,0 +1,40 @@
+<li id="post-<%= i._id%>">
+    <div>
+
+        <% if(locals.user && locals.user.id == i.user.id) {%>
+
+        <span><a class="delete-post-button" href="/posts/destroy/<%= i._id%>">X</a></span>
+
+        <% } %>
+        <p><%= i.content%></p>
+        <span><%= i.user.name%></span>
+        <small>
+            <% if(locals.user) {%>
+                <a class="toggle-like-button" data-likes="<%= i.likes.length %>" href="/likes/toggle/?id=<%= i._id %>&type=Post">
+                    <%= i.likes.length %> Likes
+                </a>
+            <% } else {%>
+                <%= i.likes.length %> Likes
+            <%} %>    
+                
+        </small>
+    </div>
+    <div class="post-comments">
+        <% if(locals.user) { %>
+        
+            <form id="post-<%= i._id %>-comments-form" action="/comments/create" method="POST">
+                <input id="content" type="text" name="content" placeholder="Add comment.." required>
+                <input id="post" type="hidden" name="post" value="<%= i._id %>">
+                <button type="submit">Submit</button>
+            </form>
+            
+        <% } %>
+        <div id="post-comments-list">
+            <ul id="post-comments-<%= i._id %>">
+                <% for(let comment of i.comments) {%>
+                    <%- include('_comment', {comment: comment}); %>    
+                <%} %>
+            </ul>
+        </div>
+    </div>
+</li>
